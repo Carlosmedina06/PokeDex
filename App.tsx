@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NativeBaseProvider } from 'native-base'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+import customTheme from './src/theme'
+import Home from './src/views/Home/Home'
+import Details from './src/views/Details/Details'
+import { type MainStackParamList } from './src/interfaces'
+
+const Stack = createNativeStackNavigator<MainStackParamList>()
+const queryClient = new QueryClient()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <QueryClientProvider client={queryClient}>
+      <NativeBaseProvider theme={customTheme}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+              component={Home}
+              name="Home"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Group screenOptions={{ presentation: 'modal' }}>
+              <Stack.Screen
+                component={Details}
+                name="Details"
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack.Group>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </QueryClientProvider>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
