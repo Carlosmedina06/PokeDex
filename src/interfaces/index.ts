@@ -1,17 +1,28 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 export interface Pokemon {
-  id: number
   name: string
-  order: number
+  id: number
   sprites: {
-    front_default: string | undefined
+    front_default: string
   }
   types: Array<{
     slot: number
     type: {
       name: string
     }
+  }>
+  species: {
+    url: string
+  }
+
+  height: number
+  weight: number
+}
+export interface Species {
+  flavor_text_entries: Array<{
+    flavor_text: string | null
   }>
 }
 
@@ -30,7 +41,7 @@ export interface AllPoke {
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type MainStackParamList = {
   Home: undefined
-  Details: { name: string }
+  Details: { name: string; url: string }
 }
 
 export type MainStackScreenProps<T extends keyof MainStackParamList> = NativeStackScreenProps<
@@ -65,7 +76,10 @@ export const getTypeColor = (type: string) => {
   return typesColors[type as keyof typeof typesColors] || 'light'
 }
 
-// formats number to three digits
 export const formatNumber = (num: number) => {
   return num.toString().padStart(3, '0')
+}
+
+export const removeEscapeCharacters = (str: string) => {
+  return str.replace(/[\n\r\t\f]/g, ' ')
 }

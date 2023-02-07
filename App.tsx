@@ -29,7 +29,9 @@ export default function App() {
                 component={Details}
                 name="Details"
                 options={{
-                  headerShown: false,
+                  headerShown: true,
+                  headerTransparent: true,
+                  headerTitle: '',
                 }}
               />
             </Stack.Group>

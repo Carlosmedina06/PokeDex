@@ -1,8 +1,7 @@
 import React from 'react'
-import { Spinner, FlatList, Center } from 'native-base'
+import { Spinner, FlatList, Center, StatusBar } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { ActivityIndicator } from 'react-native'
 
 import { type AllPoke } from '../../interfaces'
 import Card from '../../components/Card/Card'
@@ -37,13 +36,14 @@ export default function Home() {
 
   return (
     <SafeAreaView>
+      <StatusBar barStyle="dark-content" />
       <FlatList
         ListFooterComponent={isFetchingNextPage ? <Spinner color="black" mt="4" size="lg" /> : null}
         _contentContainerStyle={{ p: 2, bg: 'white' }}
         contentInsetAdjustmentBehavior="automatic"
         data={data?.pages.flatMap((page) => page.results)}
         keyExtractor={(item) => item.name}
-        numColumns={2}
+        numColumns={3}
         renderItem={({ item }) => <Card name={item.name} url={item.url} />}
         onEndReached={loadMore}
       />
